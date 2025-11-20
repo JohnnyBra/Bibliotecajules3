@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Panel de Administración</h2>
+
+<div class="card mb-4">
+    <div class="card-header">Importar Libros (CSV)</div>
+    <div class="card-body">
+        <p>Sube un archivo CSV con las columnas: Title, Author, ISBN, Copies</p>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="input-group mb-3">
+                <input type="file" class="form-control" name="file" required>
+                <button class="btn btn-outline-secondary" type="submit">Subir</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h3 class="mb-3">Gestión de Libros</h3>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Copias (Disp/Total)</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.title }}
+                    {% if book.is_book_of_month %}
+                    <span class="badge bg-warning text-dark">Mes</span>
+                    {% endif %}
+                </td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.available_copies }} / {{ book.total_copies }}</td>
+                <td>
+                    <a href="{{ url_for('set_month_book', book_id=book.id) }}" class="btn btn-sm btn-info">Hacer Libro del Mes</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

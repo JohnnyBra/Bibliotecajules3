@@ -1,0 +1,10 @@
+*.pyc
+__pycache__/
+instance/
+*.db
+*.log
+uploads/
+cookies.txt
+catalog_output.html
+.pytest_cache/
+/home/jules/verification/
