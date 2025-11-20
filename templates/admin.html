@@ -16,6 +16,32 @@
     </div>
 </div>
 
+<h3 class="mb-3">Préstamos Activos</h3>
+<div class="table-responsive mb-5">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Alumno</th>
+                <th>Libro</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for loan in active_loans %}
+            <tr>
+                <td>{{ loan.user.username }} ({{ loan.user.student_class }})</td>
+                <td>{{ loan.book.title }}</td>
+                <td>{{ loan.loan_date.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    <a href="{{ url_for('return_book', loan_id=loan.id) }}" class="btn btn-sm btn-success">Marcar Devuelto (+10 pts)</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 <h3 class="mb-3">Gestión de Libros</h3>
 <div class="table-responsive">
     <table class="table table-striped">

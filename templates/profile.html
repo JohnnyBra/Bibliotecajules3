@@ -40,7 +40,7 @@
                     </td>
                     <td>
                         {% if not loan.returned %}
-                        <a href="{{ url_for('return_book', loan_id=loan.id) }}" class="btn btn-sm btn-outline-success">Devolver</a>
+                        <span class="text-muted">Pendiente de devolución</span>
                         {% endif %}
                     </td>
                 </tr>
