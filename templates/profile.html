@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-header">Mi Perfil</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ current_user.username }}</h5>
+                <p class="card-text">Clase: {{ current_user.student_class }}</p>
+                <div class="gamification-badge mb-3">
+                    Puntos: {{ current_user.points }} 🌟
+                </div>
+                <p>Libros leídos: {{ current_user.books_read_count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h3>Mis Préstamos</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Libro</th>
+                    <th>Fecha Préstamo</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in loans %}
+                <tr>
+                    <td>{{ loan.book.title }}</td>
+                    <td>{{ loan.loan_date.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        {% if loan.returned %}
+                        <span class="badge bg-success">Devuelto</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark">Activo</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not loan.returned %}
+                        <a href="{{ url_for('return_book', loan_id=loan.id) }}" class="btn btn-sm btn-outline-success">Devolver</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="p-5 mb-4 bg-light rounded-3 border">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">Bienvenido a BiblioHispa</h1>
+                <p class="col-md-8 fs-4">¡Lee, aprende y gana puntos!</p>
+                <a href="{{ url_for('catalog') }}" class="btn btn-primary btn-lg" type="button">Ver Libros</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        {% if book_of_month %}
+        <div class="card h-100 text-white bg-success">
+            <div class="card-header">Libro del Mes 🌟</div>
+            <div class="card-body">
+                <h5 class="card-title">{{ book_of_month.title }}</h5>
+                <p class="card-text">Por {{ book_of_month.author }}</p>
+                <p>¡Consigue puntos extra leyendo este libro!</p>
+                <a href="{{ url_for('borrow_book', book_id=book_of_month.id) }}" class="btn btn-light">Pedir Prestado</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="card h-100 bg-secondary text-white">
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <h5>Próximamente: Libro del Mes</h5>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3 class="mb-3">🏆 Top Lectores</h3>
+        <ul class="list-group">
+            {% for user in top_readers %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ loop.index }}. {{ user.username }} (Clase {{ user.student_class }})
+                <span class="badge bg-primary rounded-pill">{{ user.points }} pts</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h3 class="mb-3">📚 Los más leídos</h3>
+        <ul class="list-group">
+            {% for book in most_read_books %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ book.title }}
+                <span class="badge bg-secondary rounded-pill">{{ book.times_borrowed }} veces</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
