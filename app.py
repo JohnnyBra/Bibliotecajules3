@@ -250,4 +250,7 @@ if __name__ == '__main__':
             admin = User(username='admin', role='admin', password=generate_password_hash('admin123'))
             db.session.add(admin)
             db.session.commit()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+
+    # Disable debug mode if running as frozen executable to prevent infinite reload loops
+    is_frozen = getattr(sys, 'frozen', False)
+    app.run(debug=not is_frozen, host='0.0.0.0', port=5000)

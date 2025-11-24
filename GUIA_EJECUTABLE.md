@@ -19,11 +19,17 @@ pyinstaller bibliohispa.spec
 Esto leerá la configuración y empezará a empaquetar la aplicación, las plantillas HTML y las imágenes. Tardará un poquito... ⏳
 
 ## 3️⃣ ¡Listo!
-Cuando termine, verás una carpeta nueva llamada `dist`. Dentro encontrarás tu archivo:
+Cuando termine, verás una carpeta nueva llamada `dist`. Dentro encontrarás tu archivo.
 
-👉 **`dist/bibliohispa.exe`** (o solo `bibliohispa` si estás en Linux/Mac)
+⚠️ **IMPORTANTE:**
+*   Si has ejecutado esto en **Windows**, tendrás un archivo **`bibliohispa.exe`**.
+*   Si has ejecutado esto en **Linux o Mac**, tendrás un archivo **`bibliohispa`** (sin extensión).
 
-Puedes mover ese archivo donde quieras. Al ejecutarlo:
+**¡Ojo!** PyInstaller crea el ejecutable para el sistema donde estás.
+*   Para tener un `.exe` de Windows, **tienes que seguir estos pasos en un ordenador con Windows**.
+*   No puedes crearlo en Linux y luego intentar ponerle `.exe` al nombre, porque no funcionará (te dirá que el formato no es correcto).
+
+Puedes mover el archivo generado donde quieras. Al ejecutarlo:
 1.  Se abrirá una ventana negra (la consola del servidor).
 2.  Creará automáticamente la base de datos `bibliohispa.db` y la carpeta `uploads` **en el mismo lugar donde esté el ejecutable**.
 3.  Solo tienes que ir a tu navegador y escribir `http://localhost:5000`.
