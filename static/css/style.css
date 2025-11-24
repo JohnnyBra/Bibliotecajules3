@@ -1,0 +1,178 @@
+:root {
+    --primary-color: #FFB347; /* Pastel Orange */
+    --secondary-color: #AEC6CF; /* Pastel Blue */
+    --accent-color: #FF6961; /* Pastel Red */
+    --success-color: #77DD77; /* Pastel Green */
+    --background-color: #FEF9E7; /* Creamy White */
+    --text-color: #555555;
+    --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    --border-radius: 20px;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', sans-serif;
+    color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5 {
+    color: #4a4a4a;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(45deg, #FFB347, #FFCC33) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 1rem 0;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-size: 1.8rem;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.nav-link {
+    color: white !important;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 0 5px;
+    transition: transform 0.2s;
+}
+
+.nav-link:hover {
+    transform: scale(1.1);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    background-color: white;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 2px dashed #eee;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+}
+
+.btn-danger {
+    background-color: var(--accent-color);
+}
+
+/* Custom Elements */
+.book-cover-placeholder {
+    height: 200px;
+    background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #ccc;
+    border-bottom: 1px solid #eee;
+}
+
+.badge-pill {
+    border-radius: 50px;
+    padding: 0.5em 1em;
+}
+
+.leaderboard-list .list-group-item {
+    border: none;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    background-color: rgba(255,255,255,0.8);
+    transition: transform 0.2s;
+}
+
+.leaderboard-list .list-group-item:hover {
+    transform: scale(1.02);
+    background-color: white;
+}
+
+.leaderboard-list .list-group-item:nth-child(1) {
+    background-color: #FFD700; /* Gold */
+    color: #fff;
+    font-weight: bold;
+}
+
+.leaderboard-list .list-group-item:nth-child(2) {
+    background-color: #C0C0C0; /* Silver */
+    color: #fff;
+}
+
+.leaderboard-list .list-group-item:nth-child(3) {
+    background-color: #CD7F32; /* Bronze */
+    color: #fff;
+}
+
+/* Footer */
+.footer {
+    background-color: #555;
+    color: white;
+    margin-top: 3rem;
+    padding: 2rem 0;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+
+/* Animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.floating-element {
+    animation: float 3s ease-in-out infinite;
+}
+
+.hero-section {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23AEC6CF" fill-opacity="0.3" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
