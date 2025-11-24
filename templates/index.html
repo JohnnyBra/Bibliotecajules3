@@ -1,59 +1,85 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col-md-8">
-        <div class="p-5 mb-4 bg-light rounded-3 border">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">Bienvenido a BiblioHispa</h1>
-                <p class="col-md-8 fs-4">¡Lee, aprende y gana puntos!</p>
-                <a href="{{ url_for('catalog') }}" class="btn btn-primary btn-lg" type="button">Ver Libros</a>
+<div class="row mb-5 hero-section rounded-3 shadow-sm">
+    <div class="col-md-7 d-flex align-items-center">
+        <div class="p-4">
+            <h1 class="display-4 fw-bold text-primary mb-3">¡Bienvenido a tu Biblioteca! 🏰</h1>
+            <p class="fs-4 text-muted mb-4">Descubre historias increíbles, aprende cosas nuevas y gana puntos mágicos.</p>
+            <div class="d-grid gap-2 d-sm-flex">
+                <a href="{{ url_for('catalog') }}" class="btn btn-primary btn-lg px-4 gap-3">Explorar Libros 🗺️</a>
+                {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('register') }}" class="btn btn-outline-secondary btn-lg px-4">Crear mi cuenta ✨</a>
+                {% endif %}
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
         {% if book_of_month %}
-        <div class="card h-100 text-white bg-success">
-            <div class="card-header">Libro del Mes 🌟</div>
-            <div class="card-body">
-                <h5 class="card-title">{{ book_of_month.title }}</h5>
-                <p class="card-text">Por {{ book_of_month.author }}</p>
-                <p>¡Consigue puntos extra leyendo este libro!</p>
-                <a href="{{ url_for('borrow_book', book_id=book_of_month.id) }}" class="btn btn-light">Pedir Prestado</a>
+        <div class="card h-100 border-0 shadow-lg floating-element" style="background: linear-gradient(135deg, #FF6961 0%, #FFB347 100%); color: white;">
+            <div class="card-header border-0 fs-5">🌟 Libro del Mes 🌟</div>
+            <div class="card-body text-center">
+                <div class="bg-white text-dark rounded-3 p-3 mb-3 shadow-sm">
+                    <h3 class="card-title fw-bold">{{ book_of_month.title }}</h3>
+                    <p class="card-text text-muted">de {{ book_of_month.author }}</p>
+                </div>
+                <p class="fs-5">¡Puntos extra si lo lees!</p>
+                {% if book_of_month.available_copies > 0 %}
+                <a href="{{ url_for('borrow_book', book_id=book_of_month.id) }}" class="btn btn-light fw-bold w-100 rounded-pill text-primary">¡Lo quiero leer! 📖</a>
+                {% else %}
+                <button class="btn btn-light fw-bold w-100 rounded-pill text-muted" disabled>¡Agotado! 😱</button>
+                {% endif %}
             </div>
         </div>
         {% else %}
-        <div class="card h-100 bg-secondary text-white">
+        <div class="card h-100 bg-secondary text-white border-0 shadow">
             <div class="card-body d-flex align-items-center justify-content-center">
-                <h5>Próximamente: Libro del Mes</h5>
+                <h5>🚧 Próximamente: Libro del Mes 🚧</h5>
             </div>
         </div>
         {% endif %}
     </div>
 </div>
 
-<div class="row">
+<div class="row g-4">
     <div class="col-md-6">
-        <h3 class="mb-3">🏆 Top Lectores</h3>
-        <ul class="list-group">
-            {% for user in top_readers %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ loop.index }}. {{ user.username }} (Clase {{ user.student_class }})
-                <span class="badge bg-primary rounded-pill">{{ user.points }} pts</span>
-            </li>
-            {% endfor %}
-        </ul>
+        <div class="card h-100">
+            <div class="card-header text-primary">🏆 Salón de la Fama</div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush leaderboard-list">
+                    {% for user in top_readers %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                        <span class="fw-bold">
+                            {% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% elif loop.index == 3 %}🥉{% else %}✨{% endif %}
+                            {{ user.username }} <small class="text-muted fw-normal">({{ user.student_class }})</small>
+                        </span>
+                        <span class="badge bg-warning text-dark rounded-pill fs-6">{{ user.points }} pts</span>
+                    </li>
+                    {% endfor %}
+                    {% if not top_readers %}
+                    <p class="text-center text-muted">¡Sé el primero en aparecer aquí!</p>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="col-md-6">
-        <h3 class="mb-3">📚 Los más leídos</h3>
-        <ul class="list-group">
-            {% for book in most_read_books %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ book.title }}
-                <span class="badge bg-secondary rounded-pill">{{ book.times_borrowed }} veces</span>
-            </li>
-            {% endfor %}
-        </ul>
+        <div class="card h-100">
+            <div class="card-header text-success">📚 Favoritos del Cole</div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush leaderboard-list">
+                    {% for book in most_read_books %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                        <span>📖 {{ book.title }}</span>
+                        <span class="badge bg-info text-white rounded-pill">{{ book.times_borrowed }} lecturas</span>
+                    </li>
+                    {% endfor %}
+                    {% if not most_read_books %}
+                    <p class="text-center text-muted">Aún no se han leído libros.</p>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

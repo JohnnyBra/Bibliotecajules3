@@ -2,25 +2,31 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card mt-5">
-            <div class="card-header bg-success text-white">Registro de Alumno</div>
-            <div class="card-body">
+    <div class="col-md-5">
+        <div class="text-center mb-4">
+            <span style="font-size: 5rem;">🎒</span>
+            <h2 class="mt-2 text-success">¡Nuevo Alumno!</h2>
+        </div>
+        <div class="card shadow-lg border-0">
+            <div class="card-body p-5">
                 <form method="POST">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Nombre de Usuario</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                        <label for="username" class="form-label fw-bold text-muted">Nombre de Usuario</label>
+                        <input type="text" class="form-control form-control-lg rounded-pill bg-light border-0" id="username" name="username" placeholder="¿Cómo te llamas?" required>
                     </div>
                     <div class="mb-3">
-                        <label for="student_class" class="form-label">Clase (ej. 3A)</label>
-                        <input type="text" class="form-control" id="student_class" name="student_class" required>
+                        <label for="student_class" class="form-label fw-bold text-muted">Clase (ej. 3A)</label>
+                        <input type="text" class="form-control form-control-lg rounded-pill bg-light border-0" id="student_class" name="student_class" placeholder="Tu clase..." required>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="mb-4">
+                        <label for="password" class="form-label fw-bold text-muted">Contraseña</label>
+                        <input type="password" class="form-control form-control-lg rounded-pill bg-light border-0" id="password" name="password" placeholder="Algo secreto..." required>
                     </div>
-                    <button type="submit" class="btn btn-success w-100">Registrarse</button>
+                    <button type="submit" class="btn btn-success w-100 btn-lg rounded-pill">Registrarse ✅</button>
                 </form>
+            </div>
+            <div class="card-footer bg-white text-center border-0 pb-4">
+                <small class="text-muted">¿Ya tienes cuenta?</small> <a href="{{ url_for('login') }}" class="fw-bold text-decoration-none text-success">¡Entra aquí!</a>
             </div>
         </div>
     </div>
