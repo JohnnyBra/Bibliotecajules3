@@ -14,6 +14,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads'
 ALLOWED_EXTENSIONS = {'csv'}
 
+# Ensure upload folder exists
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -142,7 +145,8 @@ def admin_dashboard():
                 flash(f'Error al procesar CSV: {e}')
 
     books = Book.query.all()
-    return render_template('admin.html', books=books)
+    active_loans = Loan.query.filter_by(returned=False).all()
+    return render_template('admin.html', books=books, active_loans=active_loans)
 
 @app.route('/admin/set_month_book/<int:book_id>')
 @login_required
@@ -194,10 +198,10 @@ def borrow_book(book_id):
 def return_book(loan_id):
     loan = Loan.query.get_or_404(loan_id)
 
-    # Verify it belongs to user or user is admin
-    if loan.user_id != current_user.id and current_user.role != 'admin':
-        flash('No autorizado')
-        return redirect(url_for('home'))
+    # Only admin can mark books as returned
+    if current_user.role != 'admin':
+        flash('Solo los profesores pueden marcar libros como devueltos.')
+        return redirect(url_for('profile'))
 
     if not loan.returned:
         loan.returned = True
@@ -213,9 +217,9 @@ def return_book(loan_id):
         user.books_read_count += 1
 
         db.session.commit()
-        flash('Libro devuelto. ¡Has ganado 10 puntos!')
+        flash(f'Libro devuelto. {user.username} ha ganado 10 puntos!')
 
-    return redirect(url_for('profile'))
+    return redirect(url_for('admin_dashboard')) # Redirect to admin dashboard or user profile
 
 @app.route('/profile')
 @login_required
