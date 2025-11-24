@@ -1,4 +1,5 @@
 import os
+import sys
 import pandas as pd
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -7,11 +8,25 @@ from werkzeug.utils import secure_filename
 from datetime import datetime
 from models import db, User, Book, Loan
 
-app = Flask(__name__)
+if getattr(sys, 'frozen', False):
+    template_folder = os.path.join(sys._MEIPASS, 'templates')
+    static_folder = os.path.join(sys._MEIPASS, 'static')
+    app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
+else:
+    app = Flask(__name__)
+
 app.config['SECRET_KEY'] = 'bibliohispa_secret_key_123' # In production, use env var
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bibliohispa.db'
+# Fix for DB path in frozen mode (optional, but good if we want the DB near the exe)
+if getattr(sys, 'frozen', False):
+    # Store DB in the same directory as the executable
+    base_dir = os.path.dirname(sys.executable)
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{os.path.join(base_dir, "bibliohispa.db")}'
+    app.config['UPLOAD_FOLDER'] = os.path.join(base_dir, 'uploads')
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bibliohispa.db'
+    app.config['UPLOAD_FOLDER'] = 'uploads'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = 'uploads'
 ALLOWED_EXTENSIONS = {'csv'}
 
 # Ensure upload folder exists
@@ -235,4 +250,7 @@ if __name__ == '__main__':
             admin = User(username='admin', role='admin', password=generate_password_hash('admin123'))
             db.session.add(admin)
             db.session.commit()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+
+    # Disable debug mode if running as frozen executable to prevent infinite reload loops
+    is_frozen = getattr(sys, 'frozen', False)
+    app.run(debug=not is_frozen, host='0.0.0.0', port=5000)

@@ -8,3 +8,6 @@ cookies.txt
 catalog_output.html
 .pytest_cache/
 /home/jules/verification/
+dist/
+build/
+# *.spec  <-- We want to commit the spec file so users can use it
